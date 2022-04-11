@@ -1,0 +1,40 @@
+# Establish Working Directory and Input dplyr
+
+> setwd("C:/Users/Savannah McIntyre/Desktop/MechaCar_Statistical_Analysis")
+> library(dplyr)
+
+# Read in MechaCar_Mpg.csv
+> mecha_mpg<- read.csv(file='MechaCar_mpg.csv',check.names=F,stringsAsFactors = F)
+
+# Create Linear Regression Model for MechaCar_Mpg.csv
+> lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD,data=mecha_mpg) #generate multiple linear regression model
+
+# Call for summary statistics
+> summary(lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD,data=mecha_mpg)) #generate summary statistics
+
+
+
+# Deliverable 2
+> suspension<- read.csv(file='Suspension_Coil.csv',check.names=F,stringsAsFactors = F)
+
+# Create Variables for the Summary Statistics
+> Mean = mean(suspension$PSI)
+> Median=median(suspension$PSI)
+> Variance=var(suspension$PSI)
+> SD = sd(suspension$PSI)
+
+# Create a data frame from the summary statistics 
+> summarize_susp <- data.frame(Mean,Median,Variance,SD)
+
+# Create a data frame that groups the PSI data by Lot
+> lot_summary <- suspension %>% group_by(Manufacturing_Lot) %>% summarize(Mean=mean(PSI),Median = median(PSI),Variance = var(PSI),SD = sd(PSI), .groups = 'keep') 
+
+# Deliverable 3
+
+#T-Test for all lots
+t.test((suspension$PSI),mu = 1500)
+
+#T-Test for each lot individually
+t.test(subset(suspension,Manufacturing_Lot =="Lot1")$PSI,mu = 1500)
+t.test(subset(suspension,Manufacturing_Lot =="Lot2")$PSI,mu = 1500)
+t.test(subset(suspension,Manufacturing_Lot =="Lot3")$PSI,mu = 1500)
